@@ -18,7 +18,7 @@ class GetDataController extends GetxController {
     _products.assignAll(await _getDataServices.getdata());
   }
 
-  get(String? id,int index) async {
+  get(String? id, int index) async {
     _product.assignAll(await _getDataServices.get(id));
     print(product[index].name);
   }

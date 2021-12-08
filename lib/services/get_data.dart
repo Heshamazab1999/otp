@@ -10,13 +10,18 @@ class GetDataServices {
     return data.docs.map((e) => (GetDataModel.fromJson(e))).toList();
   }
 
+  Future<GetDataModel> send(String? id, GetDataModel getDataModel) async {
+    final data = await _store
+        .collection("data")
+        .doc(id)
+        .collection("get")
+        .add(getDataModel.toJson());
+return getDataModel;
+  }
+
   Future<List<GetDataModel>> getdata() async {
     final data = await _store.collection("data").get();
     return data.docs.map((e) => (GetDataModel.fromJson(e))).toList();
   }
-
-  Future<GetDataModel> send(GetDataModel getDataModel) async {
-    final ref = await _store.collection("data").add(getDataModel.toJson());
-    return getDataModel;
-  }
+  
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otp/controller/get_data_controller.dart';
+import 'package:otp/models/get_data_model.dart';
 import 'package:otp/services/get_data.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,8 +22,11 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      _controller.get(_controller.products[index].key,0);
+                      _controller.get(_controller.products[index].key,index);
                       print(_controller.products[index].key);
+                      getDataServices.send(_controller.products[index].key, GetDataModel(
+                        name: "Ahmed"
+                      ));
 
                     },
                     child: Container(

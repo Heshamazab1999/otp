@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">otp</string>
+    <string name="facebook_app_id">690465561923953</string>
+    <string name="fb_login_protocol_scheme">fb690465561923953</string>
+
+</resources>
