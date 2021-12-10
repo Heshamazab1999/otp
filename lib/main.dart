@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:otp/controller/login_controller.dart';
 import 'package:otp/screens/login_screen.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +13,11 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await GetStorage.init();
 
+  var token = await FirebaseMessaging.instance.getToken();
+  print(token.toString());
+  Get.put(LoginController());
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging.onMessageOpenedApp.listen((event) {

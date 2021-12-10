@@ -3,8 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:otp/screens/ads.dart';
 import 'package:otp/screens/home_screen.dart';
 import 'package:otp/screens/pin_code_screen.dart';
 import 'package:otp/services/google_services.dart';
@@ -18,6 +21,8 @@ class LoginController extends GetxController {
   final _image = ''.obs;
   final email = ''.obs;
   final password = ''.obs;
+  final box = GetStorage();
+  final code = ''.obs;
 
   bool get select => _select.value;
 
@@ -167,7 +172,67 @@ class LoginController extends GetxController {
   }
 
   reset() {
-    firebaseService.remmber(email.value);
-    print(email.value);
+    firebaseService.reset(email.value);
+  }
+
+  BannerAd? _bottomBannerAd;
+  bool isLoaded = false;
+  late AdsManager adManager;
+
+  Future<void> getBottomBannerAd(AdsManager adManager) async {
+    final adInitialize = MobileAds.instance.initialize();
+    AdsManager(initialization: adInitialize);
+    _bottomBannerAd = BannerAd(
+      adUnitId: adManager.bannerAdUnitId,
+      size: AdSize.largeBanner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          isLoaded = true;
+          print('Ad loaded to load: $isLoaded !!!!!!');
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          //ad.dispose();
+          print('Ad failed to load: $error');
+        },
+      ),
+    )..load();
+  }
+
+  Widget showAd() {
+    return isLoaded
+        ? Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Color(0xffffda11),
+              ),
+              //color: Color(0xffffda11),
+            ),
+            alignment: Alignment.center,
+            height: _bottomBannerAd!.size.height.toDouble(),
+            width: _bottomBannerAd!.size.width.toDouble(),
+            child: AdWidget(ad: _bottomBannerAd!),
+          )
+        : Container(
+            color: Colors.black87,
+            alignment: Alignment.center,
+            width: double.infinity,
+            height: 50,
+          );
+  }
+
+  write() {
+    box.write('quote', 'GetX is the best');
+  }
+
+  read() {
+    print(box.read('quote'));
+    code.value = box.read('quote');
+  }
+
+  @override
+  Future<void> onInit() async {
+    // TODO: implement onInit
+    super.onInit();
   }
 }

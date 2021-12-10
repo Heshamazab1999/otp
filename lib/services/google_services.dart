@@ -14,13 +14,14 @@ class FirebaseService {
     }
   }
 
-  Future<void> remmber(String email) async {
+  Future reset(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-    }on FirebaseAuthException catch (e) {
-      print(e.code);
-      print(e.message);
-  }}
+      print(email);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   Future<String?> signInwithGoogle() async {
     try {

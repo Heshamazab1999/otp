@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:otp/components/logo_image.dart';
 import 'package:otp/controller/login_controller.dart';
+import 'package:otp/screens/ads.dart';
 
 class LoginScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  late AdsManager adManager;
 
   @override
   Widget build(BuildContext context) {
@@ -82,15 +84,24 @@ class LoginScreen extends StatelessWidget {
                   //     ),
                   //   ),
                   // ),
+                  Text(_controller.code.isEmpty
+                      ? "bbbbbb"
+                      : _controller.code.value),
                   SizedBox(
                     height: 40,
                     width: MediaQuery.of(context).size.width - 100,
                     child: TextButton(
                       onPressed: () async {
-                         _auth.sendPasswordResetEmail(
-                            email: _controller.email.value);
-                        // _controller.reset();
-                        //_controller.loginWithFacebook();
+                        // _controller.getBottomBannerAd(adManager);
+                        // try {
+                        //   await _auth.sendPasswordResetEmail(
+                        //       email: _controller.email.value);
+                        //   print(_controller.email.value);
+                        // } catch (e) {
+                        //   print("kkkk");
+                        // }
+                        _controller.read();
+                        // _controller.loginWithFacebook();
                         // _controller.verifyPhone(_controller.text.value);
                         // // _controller.verifyPhone(_controller.text.value);
                         // print("jjjjj${_controller.text.value}");
