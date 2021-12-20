@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:otp/models/get_data_model.dart';
 import 'package:otp/screens/ads.dart';
 import 'package:otp/screens/home_screen.dart';
 import 'package:otp/screens/pin_code_screen.dart';
@@ -21,8 +25,14 @@ class LoginController extends GetxController {
   final _image = ''.obs;
   final email = ''.obs;
   final password = ''.obs;
-  final box = GetStorage();
-  final code = ''.obs;
+
+  // final box = GetStorage();
+  final code = 0.obs;
+  RxInt i = 0.obs;
+
+  convert(int index) {
+    i.value = index;
+  }
 
   bool get select => _select.value;
 
@@ -171,8 +181,8 @@ class LoginController extends GetxController {
     firebaseService.login(email.value, password.value);
   }
 
-  reset() {
-    firebaseService.reset(email.value);
+  Future<void> reset() async {
+    await firebaseService.reset();
   }
 
   BannerAd? _bottomBannerAd;
@@ -221,18 +231,67 @@ class LoginController extends GetxController {
           );
   }
 
-  write() {
-    box.write('quote', 'GetX is the best');
+  final list = <String>["A", "B", "C", "v", "v", "vvvvvv"];
+  final List l = [].obs;
+
+  // write() {
+  //   box.write('quote', list);
+  //   print(box.read('quote'));
+  //   // l.assignAll(box.read('quote'));
+  // }
+
+  final List empty = [].obs;
+
+  // store(int index) {
+  //   empty.add(l[index]);
+  //   box.write('empty', empty);
+  //   print(box.read('empty'));
+  //   //empty.assignAll(box.read('empty'));
+  // }
+
+  erase(int index) async {
+    final box = await Hive.openBox("name");
+    //init hive
+    box.deleteAt(index);
+    print(index);
   }
 
-  read() {
-    print(box.read('quote'));
-    code.value = box.read('quote');
+  Future<void> set() async {
+    final box = await Hive.openBox("name"); //init hive
+    box.put("key", list);
+    List<String> items = box.get("key");
+    print(box.get('key'));
+    empty.addAll(items);
+    // Dave - 30
   }
 
   @override
   Future<void> onInit() async {
-    // TODO: implement onInit
+    // TODO: implement onInit b
     super.onInit();
+  }
+
+  List shuffle() {
+    var random = new Random();
+
+    // Go through all elements.
+    for (var i = l.length - 1; i > 0; i--) {
+      // Pick a pseudorandom number according to the list length
+      var n = random.nextInt(i + 1);
+
+      var temp = l[i];
+      l[i] = l[n];
+      l[n] = temp;
+    }
+    print(l);
+    return l;
+  }
+
+  increment() {
+    code.value += code.value;
+  }
+
+  decrement() {
+    code.value--;
   }
 }

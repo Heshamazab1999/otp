@@ -9,15 +9,17 @@ class FirebaseService {
     try {
       final user = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      print(user.user?.uid);
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future reset(String email) async {
+  Future<void> reset() async {
     try {
-      await _auth.sendPasswordResetEmail(email: email);
-      print(email);
+      await _auth.sendPasswordResetEmail(
+        email:"hesham@gmail.com",
+      );
     } catch (e) {
       print(e.toString());
     }

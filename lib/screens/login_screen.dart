@@ -7,6 +7,7 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:otp/components/logo_image.dart';
 import 'package:otp/controller/login_controller.dart';
 import 'package:otp/screens/ads.dart';
+import 'package:otp/screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -24,20 +25,37 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                  Logo(),
+                  GestureDetector(
+                      onTap: () {
+                        // _controller.erase();
+                      },
+                      child: Logo()),
                   SizedBox(
                     height: 25,
                   ),
-                  Text(
-                    "Enter Your Number",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  ),
+                  // SizedBox(
+                  //   height: 100,
+                  //   child: ListView.builder(
+                  //       physics: ClampingScrollPhysics(),
+                  //       shrinkWrap: true,
+                  //       itemCount: _controller.empty.length,
+                  //       scrollDirection: Axis.horizontal,
+                  //       itemBuilder: (ctx, index) => Obx(() => Text(
+                  //           _controller.empty.isEmpty
+                  //               ? "hh"
+                  //               : _controller.empty[index]))),
+                  // ),
 
                   TextField(
                     onChanged: (v) {
                       _controller.email.value = v;
                     },
                   ),
+                  // TextField(
+                  //   onChanged: (v) {
+                  //     _controller.password.value = v;
+                  //   },
+                  // ),
 
                   // TextField(
                   //   onChanged: (v) {
@@ -84,14 +102,42 @@ class LoginScreen extends StatelessWidget {
                   //     ),
                   //   ),
                   // ),
-                  Text(_controller.code.isEmpty
-                      ? "bbbbbb"
-                      : _controller.code.value),
+
+                  Obx(() => ListView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemCount: _controller.empty.length,
+                      itemBuilder: (ctx, index) => Obx(() => Text(
+                            _controller.empty.isEmpty
+                                ? "List is Empty"
+                                : _controller.empty[index].toString(),
+                            style: TextStyle(
+                                color: _controller.i.value == index
+                                    ? Colors.red
+                                    : Colors.black),
+                          )))),
+                  // Text(_controller.code.value == 0
+                  //     ? "bbbbbb"
+                  //     : _controller.code.value.toString()),
+                  // IconButton(
+                  //     onPressed: () {
+                  //       _controller.increment();
+                  //     },
+                  //     icon: Icon(Icons.add)),
                   SizedBox(
                     height: 40,
                     width: MediaQuery.of(context).size.width - 100,
                     child: TextButton(
                       onPressed: () async {
+                        // Get.bottomSheet(
+                        //   Container(
+                        //     width: 200,
+                        //     height: 250,
+                        //   ),
+                        //   backgroundColor: Colors.red,
+                        // );
+                        _controller.set();
+                        // _controller.shuffle();
                         // _controller.getBottomBannerAd(adManager);
                         // try {
                         //   await _auth.sendPasswordResetEmail(
@@ -100,13 +146,13 @@ class LoginScreen extends StatelessWidget {
                         // } catch (e) {
                         //   print("kkkk");
                         // }
-                        _controller.read();
+                        // _controller.write();
                         // _controller.loginWithFacebook();
                         // _controller.verifyPhone(_controller.text.value);
                         // // _controller.verifyPhone(_controller.text.value);
                         // print("jjjjj${_controller.text.value}");
                         // _controller.editingController.clear();
-                        // Get.to(() => HomeScreen());
+                         Get.to(() => HomeScreen());
                       },
                       child: Text(
                         "Register",
@@ -166,7 +212,7 @@ class LoginScreen extends StatelessWidget {
                       : Container(),
                   IconButton(
                       onPressed: () {
-                        _controller.selectImage();
+                        _controller.erase(2);
                       },
                       icon: Icon(
                         Icons.add,

@@ -7,7 +7,9 @@ class GetDataServices {
   Future<List<GetDataModel>> get(String? id) async {
     final data =
         await _store.collection("data").doc(id).collection("get").get();
-    return data.docs.map((e) => (GetDataModel.fromJson(e))).toList();
+    final doc = data.docs.map((e) => (GetDataModel.fromJson(e))).toList();
+    print(doc);
+    return doc;
   }
 
   Future<GetDataModel> send(String? id, GetDataModel getDataModel) async {
@@ -16,12 +18,11 @@ class GetDataServices {
         .doc(id)
         .collection("get")
         .add(getDataModel.toJson());
-return getDataModel;
+    return getDataModel;
   }
 
   Future<List<GetDataModel>> getdata() async {
     final data = await _store.collection("data").get();
     return data.docs.map((e) => (GetDataModel.fromJson(e))).toList();
   }
-  
 }
