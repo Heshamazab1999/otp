@@ -1,15 +1,17 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
-import 'package:otp/db/db_services.dart';
 import 'package:otp/models/get_data_model.dart';
 import 'package:otp/models/hive_model.dart';
 import 'package:otp/services/get_data.dart';
+import 'dart:async';
 
 class GetDataController extends GetxController {
   static GetDataController to = Get.find();
   final _product = <GetDataModel>[].obs;
   final _products = <GetDataModel>[].obs;
   final models = <Product>[].obs;
-  HiveServices hiveServices = HiveServices();
+  final connectivity = Connectivity();
+  late StreamSubscription subscription;
   GetDataServices _getDataServices = GetDataServices();
 
   List<GetDataModel> get product => _product;
@@ -20,7 +22,13 @@ class GetDataController extends GetxController {
   Future<void> onInit() async {
     // TODO: implement onInit
     super.onInit();
-    _products.assignAll(await _getDataServices.getdata());
+    connect();
+  }
+
+  @override
+  void onClose() {
+    //stop listening to network state when app is closed
+    subscription.cancel();
   }
 
   get(
@@ -29,8 +37,24 @@ class GetDataController extends GetxController {
     _product.assignAll(await _getDataServices.get(id));
   }
 
-  getAllData() {
-    models.addAll(hiveServices.logList);
-    print(models.length);
+  Future<StreamSubscription> connect() async {
+    subscription = connectivity.onConnectivityChanged.listen((result) async {
+      switch (result) {
+        case ConnectivityResult.mobile:
+          _products.assignAll(await _getDataServices.getdata());
+          print(result.toString());
+          break;
+        case ConnectivityResult.wifi:
+          _products.assignAll(await _getDataServices.getdata());
+          print(result.toString());
+          break;
+        case ConnectivityResult.none:
+          print(result.toString());
+
+          break;
+      }
+    });
+
+    return subscription;
   }
 }

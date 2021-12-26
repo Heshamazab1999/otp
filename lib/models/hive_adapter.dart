@@ -13,7 +13,7 @@ class ProductAdapter extends TypeAdapter<Product> {
     };
     return Product(
       name: fields[0] ,
-      key: fields[1] ,
+      key: fields[1]  ,
     );
     // TODO: implement read
     throw UnimplementedError();
@@ -31,7 +31,6 @@ class ProductAdapter extends TypeAdapter<Product> {
   @override
   void write(BinaryWriter writer, Product obj) {
     writer
-      ..write(2)
       ..write(0)
       ..write(obj.name)
       ..write(1)

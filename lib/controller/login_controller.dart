@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -287,8 +290,29 @@ class LoginController extends GetxController {
     return l;
   }
 
-  increment() {
-    code.value += code.value;
+  final address = '';
+
+  increment() async {
+    // Some simplest connection :F
+    try {
+      BluetoothConnection connection =
+          await BluetoothConnection.toAddress(address);
+      print('Connected to the device');
+
+      connection.input?.listen((Uint8List data) {
+        print('Data incoming: ${ascii.decode(data)}');
+        connection.output.add(data); // Sending data
+
+        if (ascii.decode(data).contains('!')) {
+          connection.finish(); // Closing connection
+          print('Disconnecting by local host');
+        }
+      }).onDone(() {
+        print('Disconnected by remote request');
+      });
+    } catch (exception) {
+      print('Cannot connect, exception occured');
+    }
   }
 
   decrement() {

@@ -1,9 +1,11 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
+import 'package:otp/controller/connectivity_controller.dart';
 import 'package:otp/controller/login_controller.dart';
 import 'package:otp/db/db_services.dart';
 import 'package:otp/locator.dart';
@@ -33,12 +35,11 @@ Future<void> main() async {
   FirebaseMessaging.onMessage.listen((event) {
     print(event.data.toString());
   });
-
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

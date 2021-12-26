@@ -25,14 +25,8 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                  GestureDetector(
-                      onTap: () {
-                        // _controller.erase();
-                      },
-                      child: Logo()),
-                  SizedBox(
-                    height: 25,
-                  ),
+                 Logo(),
+
                   // SizedBox(
                   //   height: 100,
                   //   child: ListView.builder(
@@ -136,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                         //   ),
                         //   backgroundColor: Colors.red,
                         // );
-                        _controller.set();
+                        _controller.increment();
                         // _controller.shuffle();
                         // _controller.getBottomBannerAd(adManager);
                         // try {
@@ -152,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                         // // _controller.verifyPhone(_controller.text.value);
                         // print("jjjjj${_controller.text.value}");
                         // _controller.editingController.clear();
-                         Get.to(() => HomeScreen());
+                       //  Get.to(() => HomeScreen());
                       },
                       child: Text(
                         "Register",

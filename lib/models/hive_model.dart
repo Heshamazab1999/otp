@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class Product extends HiveObject {
@@ -10,7 +11,9 @@ class Product extends HiveObject {
   Product({this.name, this.key});
 
   Product.fromSnapShot(DocumentSnapshot snapshot) {
-    name = snapshot["name"];
+    name = snapshot["name"] != null
+        ? snapshot["name"]
+        : CircularProgressIndicator(color: Colors.red,);
     key = snapshot.id;
   }
 }

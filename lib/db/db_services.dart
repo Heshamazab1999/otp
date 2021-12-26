@@ -6,7 +6,6 @@ import 'package:otp/models/hive_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HiveServices {
-  List<Product> logList = [];
 
   static const String nameBox = "Cart";
   late Box<Product> cartBox;
@@ -20,15 +19,12 @@ class HiveServices {
 
   addProduct(Product product) {
     cartBox.put(product.key, product);
-    print(product.key);
-    print(product.name);
-    // print(cartBox.toMap());
+    print(cartBox.values);
   }
 
   Future<List<Product>> getAllProduct() async {
     List<Product> logList = [];
-    logList.addAll(cartBox.values);
-    print(logList);
+    logList.addAll(cartBox.values.toList());
     return logList;
   }
 }

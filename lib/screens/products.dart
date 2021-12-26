@@ -7,7 +7,9 @@ import 'package:otp/models/hive_model.dart';
 import 'package:otp/screens/cart_screen.dart';
 
 class ProductsScreen extends StatelessWidget {
-  const ProductsScreen({Key? key,}) : super(key: key);
+  const ProductsScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +51,11 @@ class ProductsScreen extends StatelessWidget {
                                       )),
                                 ),
                               )),
-                      TextButton(
+                     TextButton(
                           onPressed: () {
-                            GetDataController.to.getAllData();
-                            // locator<HiveServices>().getAllProduct();
-                            //  Get.to(()=>CartScreen());
+                             // GetDataController.to.getAllData();
+                             locator<HiveServices>().getAllProduct();
+                               Get.to(()=>CartScreen());
                           },
                           child: Text("ontap"))
                     ],
