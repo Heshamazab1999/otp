@@ -14,14 +14,17 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:otp/models/get_data_model.dart';
+import 'package:otp/models/model.dart';
 import 'package:otp/screens/ads.dart';
 import 'package:otp/screens/home_screen.dart';
 import 'package:otp/screens/pin_code_screen.dart';
+import 'package:otp/services/data.dart';
 import 'package:otp/services/google_services.dart';
 
 class LoginController extends GetxController {
   FirebaseService firebaseService = FirebaseService();
   TextEditingController textEditingController = TextEditingController();
+  DataServices dataServices = DataServices();
   final _picker = ImagePicker();
   final _select = false.obs;
   final _labels = ''.obs;
@@ -315,7 +318,14 @@ class LoginController extends GetxController {
     }
   }
 
-  decrement() {
-    code.value--;
+  send() async {
+    Model model = await dataServices.sendData(Model(name: email.value));
+  }
+
+  final models = <Model>[].obs;
+
+  getData() async {
+    models.assignAll(await dataServices.getData());
+  print(models.value.toList());
   }
 }

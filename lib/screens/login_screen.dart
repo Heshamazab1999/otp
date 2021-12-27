@@ -100,11 +100,11 @@ class LoginScreen extends StatelessWidget {
                   Obx(() => ListView.builder(
                       shrinkWrap: true,
                       physics: ClampingScrollPhysics(),
-                      itemCount: _controller.empty.length,
+                      itemCount: _controller.models.length,
                       itemBuilder: (ctx, index) => Obx(() => Text(
-                            _controller.empty.isEmpty
+                            _controller.models.isEmpty
                                 ? "List is Empty"
-                                : _controller.empty[index].toString(),
+                                : _controller.models[index].name!,
                             style: TextStyle(
                                 color: _controller.i.value == index
                                     ? Colors.red
@@ -130,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                         //   ),
                         //   backgroundColor: Colors.red,
                         // );
-                        _controller.increment();
+                        _controller.getData();
                         // _controller.shuffle();
                         // _controller.getBottomBannerAd(adManager);
                         // try {
@@ -146,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                         // // _controller.verifyPhone(_controller.text.value);
                         // print("jjjjj${_controller.text.value}");
                         // _controller.editingController.clear();
-                         Get.to(() => HomeScreen());
+                        //  Get.to(() => HomeScreen());
                       },
                       child: Text(
                         "Register",
