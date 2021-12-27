@@ -326,6 +326,10 @@ class LoginController extends GetxController {
 
   getData() async {
     models.assignAll(await dataServices.getData());
-  print(models.value.toList());
+    print(models.value.toList());
+  }
+
+  Stream<List<Model>> getAllData() {
+    return dataServices.get();
   }
 }
