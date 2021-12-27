@@ -1,19 +1,16 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:otp/models/get_data_model.dart';
 import 'package:otp/models/model.dart';
 import 'package:otp/screens/ads.dart';
 import 'package:otp/screens/home_screen.dart';
@@ -32,7 +29,6 @@ class LoginController extends GetxController {
   final email = ''.obs;
   final password = ''.obs;
 
-  // final box = GetStorage();
   final code = 0.obs;
   RxInt i = 0.obs;
 
@@ -326,6 +322,28 @@ class LoginController extends GetxController {
 
   getData() async {
     models.assignAll(await dataServices.getData());
-  print(models.value.toList());
+    print(models.value.toList());
+  }
+
+  Stream<List<Model>> getAllData() {
+    return dataServices.get();
+  }
+
+  bool isDarkMode = true;
+
+  void toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    if (isDarkMode) {
+      Get.changeTheme(ThemeData.dark());
+    } else {
+      Get.changeTheme(ThemeData.light());
+    }
+    update();
+  }
+
+  final selectLanguage = 'en'.obs;
+
+  changeLang(String? value) {
+    selectLanguage.value = value!;
   }
 }

@@ -11,6 +11,7 @@ import 'package:otp/db/db_services.dart';
 import 'package:otp/locator.dart';
 import 'package:otp/screens/login_screen.dart';
 import 'package:get/get.dart';
+import 'package:otp/translation.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print(message.data.toString());
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      translations: Translation(),
+        locale: Locale('en'),
+        fallbackLocale: Locale('en'),
         debugShowCheckedModeBanner: false, home: LoginScreen());
   }
 }
