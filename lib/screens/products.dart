@@ -51,11 +51,11 @@ class ProductsScreen extends StatelessWidget {
                                       )),
                                 ),
                               )),
-                     TextButton(
+                      TextButton(
                           onPressed: () {
-                             // GetDataController.to.getAllData();
-                             locator<HiveServices>().getAllProduct();
-                               Get.to(()=>CartScreen());
+                            //GetDataController.to.gets();
+                            locator<HiveServices>().getAllProduct();
+                             Get.to(()=>CartScreen());
                           },
                           child: Text("ontap"))
                     ],

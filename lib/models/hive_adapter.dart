@@ -12,7 +12,7 @@ class ProductAdapter extends TypeAdapter<Product> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Product(
-      name: fields[0] ,
+      name: fields[0],
       key: fields[1]  ,
     );
     // TODO: implement read
@@ -31,6 +31,7 @@ class ProductAdapter extends TypeAdapter<Product> {
   @override
   void write(BinaryWriter writer, Product obj) {
     writer
+      ..write(2)
       ..write(0)
       ..write(obj.name)
       ..write(1)

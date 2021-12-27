@@ -1,5 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
+import 'package:otp/db/db_services.dart';
+import 'package:otp/locator.dart';
 import 'package:otp/models/get_data_model.dart';
 import 'package:otp/models/hive_model.dart';
 import 'package:otp/services/get_data.dart';
@@ -10,6 +12,7 @@ class GetDataController extends GetxController {
   final _product = <GetDataModel>[].obs;
   final _products = <GetDataModel>[].obs;
   final models = <Product>[].obs;
+  final hiveServices = locator<HiveServices>();
   final connectivity = Connectivity();
   late StreamSubscription subscription;
   GetDataServices _getDataServices = GetDataServices();
@@ -56,5 +59,10 @@ class GetDataController extends GetxController {
     });
 
     return subscription;
+  }
+
+  gets() async {
+    models.assignAll(await hiveServices.getAllProduct());
+    print(models.length);
   }
 }

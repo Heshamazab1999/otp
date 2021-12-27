@@ -19,8 +19,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   setUpLocator();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await Hive.initFlutter();
+  await Firebase.initializeApp();
   await locator<HiveServices>().init();
   await GetStorage.init();
 
@@ -39,7 +39,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

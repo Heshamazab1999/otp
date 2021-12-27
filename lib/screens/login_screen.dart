@@ -146,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                         // // _controller.verifyPhone(_controller.text.value);
                         // print("jjjjj${_controller.text.value}");
                         // _controller.editingController.clear();
-                       //  Get.to(() => HomeScreen());
+                         Get.to(() => HomeScreen());
                       },
                       child: Text(
                         "Register",

@@ -17,32 +17,32 @@ class CartScreen extends StatelessWidget {
           builder: (context, value, child) {
             return value.values.isEmpty
                 ? CircularProgressIndicator(
-                    color: Colors.red,
-                  )
+              color: Colors.red,
+            )
                 : ListView.builder(
-                    itemCount: value.length,
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (ctx, index) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                              height: 50,
-                              color: Colors.blue,
-                              child: Row(
-                                children: [
-                                  TextExample(
-                                    key: key,
-                                    product: value.getAt(index),
-                                  ),
-                                  // Text(value.getAt(index)!.name.toString()),
-                                  IconButton(
-                                      onPressed: () {
-                                        value.deleteAt(index);
-                                      },
-                                      icon: Icon(Icons.clear))
-                                ],
-                              )),
-                        ));
+                itemCount: value.length,
+                physics: ClampingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (ctx, index) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      height: 50,
+                      color: Colors.blue,
+                      child: Row(
+                        children: [
+                          TextExample(
+                            key: key,
+                            product: value.getAt(index),
+                          ),
+                          // Text(value.getAt(index)!.name.toString()),
+                          IconButton(
+                              onPressed: () {
+                                value.deleteAt(index);
+                              },
+                              icon: Icon(Icons.clear))
+                        ],
+                      )),
+                ));
           },
         ));
   }
