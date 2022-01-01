@@ -8,6 +8,7 @@ import 'package:otp/components/logo_image.dart';
 import 'package:otp/controller/login_controller.dart';
 import 'package:otp/models/model.dart';
 import 'package:otp/screens/ads.dart';
+import 'package:otp/screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -25,7 +26,6 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                  Text("login".tr),
                   Logo(),
 
                   // SizedBox(
@@ -101,23 +101,23 @@ class LoginScreen extends StatelessWidget {
                   StreamBuilder<List<Model>>(
                       stream: _controller.getAllData(),
                       builder: (context, snapshot) {
-                        if (snapshot.data != null) {
+                        if(snapshot.data!=null){
                           final list = snapshot.data as List;
-                          return ListView.builder(
+                       return   ListView.builder(
                               shrinkWrap: true,
                               physics: ClampingScrollPhysics(),
                               itemCount: list.length,
-                              itemBuilder: (ctx, index) => Text(
-                                    list.isEmpty
-                                        ? "List is Empty"
-                                        : list[index].name!,
-                                    style: TextStyle(
-                                        color: _controller.i.value == index
-                                            ? Colors.red
-                                            : Colors.black),
-                                  ));
+                              itemBuilder: (ctx, index) =>  Text(
+                                list.isEmpty
+                                    ? "List is Empty"
+                                    : list[index].name!,
+                                style: TextStyle(
+                                    color: _controller.i.value == index
+                                        ? Colors.red
+                                        : Colors.black),
+                              ));
                         }
-                        return Text("Not Data");
+                       return Text("Not Data");
                       }),
                   // Text(_controller.code.value == 0
                   //     ? "bbbbbb"
@@ -139,7 +139,7 @@ class LoginScreen extends StatelessWidget {
                         //   ),
                         //   backgroundColor: Colors.red,
                         // );
-                        _controller.toggleDarkMode();
+                        _controller.send();
                         // _controller.shuffle();
                         // _controller.getBottomBannerAd(adManager);
                         // try {
@@ -221,24 +221,6 @@ class LoginScreen extends StatelessWidget {
                         Icons.add,
                         size: 30,
                       )),
-                  Obx(() => DropdownButton(
-                        items: [
-                          DropdownMenuItem(
-                            child: Text("en"),
-                            value: 'en',
-                          ),
-                          DropdownMenuItem(
-                            child: Text("ar"),
-                            value: 'ar',
-                          ),
-                        ],
-                        value: _controller.selectLanguage.value,
-                        onChanged: (String? value) {
-                          _controller.changeLang(value);
-                          Get.updateLocale(
-                              Locale(_controller.selectLanguage.value));
-                        },
-                      ))
                 ])),
           )),
     );
