@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,13 +12,17 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:otp/controller/auth_controller.dart';
 import 'package:otp/models/get_data_model.dart';
 import 'package:otp/models/model.dart';
+import 'package:otp/models/user_model.dart';
 import 'package:otp/screens/ads.dart';
 import 'package:otp/screens/home_screen.dart';
 import 'package:otp/screens/pin_code_screen.dart';
+import 'package:otp/services/login_services.dart';
 import 'package:otp/services/data.dart';
 import 'package:otp/services/google_services.dart';
+import 'package:otp/services/register_services.dart';
 
 class LoginController extends GetxController {
   FirebaseService firebaseService = FirebaseService();
@@ -295,29 +298,6 @@ class LoginController extends GetxController {
 
   final address = '';
 
-  increment() async {
-    // Some simplest connection :F
-    try {
-      BluetoothConnection connection =
-          await BluetoothConnection.toAddress(address);
-      print('Connected to the device');
-
-      connection.input?.listen((Uint8List data) {
-        print('Data incoming: ${ascii.decode(data)}');
-        connection.output.add(data); // Sending data
-
-        if (ascii.decode(data).contains('!')) {
-          connection.finish(); // Closing connection
-          print('Disconnecting by local host');
-        }
-      }).onDone(() {
-        print('Disconnected by remote request');
-      });
-    } catch (exception) {
-      print('Cannot connect, exception occured');
-    }
-  }
-
   send() async {
     Model model = await dataServices.sendData(Model(name: email.value));
   }
@@ -331,5 +311,13 @@ class LoginController extends GetxController {
 
   Stream<List<Model>> getAllData() {
     return dataServices.get();
+  }
+
+  final services = SignUpServices();
+
+  log() async {
+    UserModel user = await services
+        .register(UserModel(username: email.value, password: password.value));
+    AuthController.to.changeLoggedIn(true, user);
   }
 }

@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
+import 'package:otp/controller/auth_controller.dart';
 import 'package:otp/controller/connectivity_controller.dart';
 import 'package:otp/controller/login_controller.dart';
 import 'package:otp/db/db_services.dart';
@@ -12,6 +13,8 @@ import 'package:otp/locator.dart';
 import 'package:otp/screens/login_screen.dart';
 import 'package:get/get.dart';
 import 'package:otp/translation.dart';
+
+import 'screens/splach_screen.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print(message.data.toString());
@@ -27,7 +30,6 @@ Future<void> main() async {
 
   // var token = await FirebaseMessaging.instance.getToken();
   //print(token.toString());
-  Get.put(LoginController());
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging.onMessageOpenedApp.listen((event) {
@@ -40,12 +42,15 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+    final controller = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      translations: Translation(),
+        translations: Translation(),
         locale: Locale('en'),
         fallbackLocale: Locale('en'),
-        debugShowCheckedModeBanner: false, home: LoginScreen());
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen());
   }
 }

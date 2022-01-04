@@ -1,19 +1,22 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:otp/components/logo_image.dart';
 import 'package:otp/controller/login_controller.dart';
 import 'package:otp/models/model.dart';
+import 'package:otp/models/user_model.dart';
 import 'package:otp/screens/ads.dart';
 import 'package:otp/screens/home_screen.dart';
+import 'package:otp/services/auth_services.dart';
 
 class LoginScreen extends StatelessWidget {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   late AdsManager adManager;
-
+  final services=AuthServices();
   @override
   Widget build(BuildContext context) {
     PhoneNumber number = PhoneNumber(isoCode: 'EG');
@@ -46,11 +49,11 @@ class LoginScreen extends StatelessWidget {
                       _controller.email.value = v;
                     },
                   ),
-                  // TextField(
-                  //   onChanged: (v) {
-                  //     _controller.password.value = v;
-                  //   },
-                  // ),
+                  TextField(
+                    onChanged: (v) {
+                      _controller.password.value = v;
+                    },
+                  ),
 
                   // TextField(
                   //   onChanged: (v) {
@@ -132,6 +135,7 @@ class LoginScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width - 100,
                     child: TextButton(
                       onPressed: () async {
+                        _controller.log();
                         // Get.bottomSheet(
                         //   Container(
                         //     width: 200,
@@ -139,7 +143,8 @@ class LoginScreen extends StatelessWidget {
                         //   ),
                         //   backgroundColor: Colors.red,
                         // );
-                        _controller.send();
+                        // _controller.log();
+
                         // _controller.shuffle();
                         // _controller.getBottomBannerAd(adManager);
                         // try {
