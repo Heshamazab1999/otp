@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otp/controller/get_data_controller.dart';
 import 'package:otp/models/get_data_model.dart';
+import 'package:otp/screens/category_screen.dart';
 import 'package:otp/screens/sub_screen.dart';
 import 'package:otp/services/get_data.dart';
 
@@ -52,7 +53,9 @@ class HomeScreen extends StatelessWidget {
                 height: 40,
                 width: MediaQuery.of(context).size.width - 100,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => CategoryScreen());
+                  },
                   child: Text(
                     "Register",
                     style: TextStyle(fontSize: 22, color: Colors.white),
