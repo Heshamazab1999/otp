@@ -14,13 +14,17 @@ class CreateCategoryController extends GetxController {
   final product = ''.obs;
   final value = 'A'.obs;
   final key = ''.obs;
+  final categoryImage = ''.obs;
 
   create() async {
-    await services.createCategory(CreateModel(name: label.value));
+    await services.createCategory(
+        CreateModel(name: label.value, image: categoryImage.value),
+        categoryImage.value,
+        categoryImage.value.toString());
   }
 
   Stream<List<CreateModel>> getCategories() {
-    return services.getCategorys();
+    return services.getCategories();
   }
 
   selectImage() async {
@@ -29,6 +33,17 @@ class CreateCategoryController extends GetxController {
           await _picker.pickImage(source: ImageSource.gallery);
 
       if (_image != null) image.value = _image.path;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  selectCategoryImage() async {
+    try {
+      final XFile? _image =
+          await _picker.pickImage(source: ImageSource.gallery);
+
+      if (_image != null) categoryImage.value = _image.path;
     } catch (e) {
       print(e.toString());
     }

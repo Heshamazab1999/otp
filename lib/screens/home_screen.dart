@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otp/controller/get_data_controller.dart';
 import 'package:otp/models/get_data_model.dart';
-import 'package:otp/screens/category_screen.dart';
+import 'package:otp/screens/create_category.dart';
 import 'package:otp/screens/sub_screen.dart';
-import 'package:otp/services/get_data.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _controller = Get.put(GetDataController());
-    GetDataServices getDataServices = GetDataServices();
     return Scaffold(
       body: Center(
           child: Obx(
@@ -54,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 100,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => CategoryScreen());
+                    Get.to(() => CreateCategory());
                   },
                   child: Text(
                     "Register",

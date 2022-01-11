@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otp/controller/category_controller.dart';
 import 'package:otp/models/product_model.dart';
+import 'package:otp/screens/product_category.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
@@ -25,18 +26,25 @@ class CategoryScreen extends StatelessWidget {
                       crossAxisCount: 2,
                       mainAxisSpacing: 20,
                       crossAxisSpacing: 20),
-                  itemBuilder: (context, index) => Card(
-                        elevation: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: Image.network(list[index].image!)),
-                            Text(
-                              list[index].name,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          Get.to(() => ProductCategory(
+                                id: list[index].key,
+                              ));
+                        },
+                        child: Card(
+                          elevation: 1,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  flex: 1,
+                                  child: Image.network(list[index].image!)),
+                              Text(
+                                list[index].name,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
                         ),
                       ));
             }

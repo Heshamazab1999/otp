@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otp/controller/create_category_controller.dart';
 import 'package:otp/models/category_model.dart';
+import 'package:otp/screens/category_screen.dart';
 
 class CreateCategory extends StatelessWidget {
   const CreateCategory({Key? key}) : super(key: key);
@@ -17,71 +19,95 @@ class CreateCategory extends StatelessWidget {
           Get.defaultDialog(
               title: "Add Product",
               content: SizedBox(
-                height: 500,
+                height: Get.height - 500,
                 width: Get.width,
-                child: Column(
-                  children: [
-                    StreamBuilder<List<CreateModel>>(
-                        stream: _controller.getCategories(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            final list = snapshot.data as List;
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                physics: ClampingScrollPhysics(),
-                                itemCount: list.length,
-                                itemBuilder: (ctx, index) => GestureDetector(
-                                    onTap: () {
-                                      _controller.key.value = list[index].key;
-                                    print(_controller.key.value );
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      // StreamBuilder<List<CreateModel>>(
+                      //     stream: _controller.getCategories(),
+                      //     builder: (context, snapshot) {
+                      //       if (snapshot.hasData) {
+                      //         return DropdownButton(
+                      //         value: "c",
+                      //         onChanged: ( newValue) {
+                      //
+                      //           },
+                      //         items:snapshot.data!.map((snapshot) {
+                      //           return new DropdownMenuItem<String>(
+                      //             child: new Text(snapshot.name!),
+                      //             value: snapshot.name,
+                      //           );
+                      //         }).toList(),);
+                      //       }
+                      //       return CupertinoActivityIndicator();
+                      //     }),
+                      StreamBuilder<List<CreateModel>>(
+                          stream: _controller.getCategories(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final list = snapshot.data as List;
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: ClampingScrollPhysics(),
+                                  itemCount: list.length,
+                                  itemBuilder: (ctx, index) => TextButton(
+                                      onPressed: () {
+                                        _controller.key.value = list[index].key;
+                                        print(_controller.key.value);
                                       },
-                                    child: Text(list[index].name!)));
-                          }
-                          return CircularProgressIndicator();
-                        }),
-                    Obx(() => MaterialButton(
-                          onPressed: () {
-                            _controller.selectImage();
-                          },
-                          child: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: _controller.image.isNotEmpty
-                                  ? Image.file(File(_controller.image.value))
-                                  : Image.asset(
-                                      "assets/images/mobile_login.png")),
-                        )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 30,
-                      child: TextField(
+                                      child: Text(list[index].name!)));
+                            }
+                            return CupertinoActivityIndicator();
+                          }),
+                      Obx(() => MaterialButton(
+                            onPressed: () {
+                              _controller.selectImage();
+                            },
+                            child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: _controller.image.isNotEmpty
+                                    ? Image.file(File(_controller.image.value))
+                                    : Image.asset(
+                                        "assets/images/mobile_login.png")),
+                          )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextField(
                         onChanged: (value) {
                           _controller.product.value = value;
                         },
                         decoration: InputDecoration(
                             hintText: "name of category",
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
+                                borderRadius: BorderRadius.circular(5)),
                             enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue),
                                 borderRadius: BorderRadius.circular(5))),
                       ),
-                    ),
-                    SizedBox(
-                        width: 100,
+                      SizedBox(
                         height: 30,
-                        child: TextButton(
-                          onPressed: () {
-                             _controller.sendData();
-                            Get.back();
-                          },
-                          child: Text(
-                            "Register",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.teal),
-                        ))
-                  ],
+                      ),
+                      SizedBox(
+                          width: 100,
+                          height: 30,
+                          child: TextButton(
+                            onPressed: () {
+                              _controller.sendData();
+                              Get.back();
+                            },
+                            child: Text(
+                              "Register",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.teal),
+                          ))
+                    ],
+                  ),
                 ),
               ));
         },
@@ -90,6 +116,18 @@ class CreateCategory extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Obx(() => MaterialButton(
+                onPressed: () {
+                  _controller.selectCategoryImage();
+                  _controller.categoryImage.value = '';
+                },
+                child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: _controller.categoryImage.isNotEmpty
+                        ? Image.file(File(_controller.categoryImage.value))
+                        : Image.asset("assets/images/mobile_login.png")),
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
@@ -101,20 +139,26 @@ class CreateCategory extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: "Create Category",
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
           ),
           SizedBox(
-            width: 100,
+            height: 30,
+          ),
+          SizedBox(
+            width: 250,
             child: TextButton(
               onPressed: () {
                 _controller.create();
                 _controller.controller.clear();
+                Get.to(() => CategoryScreen());
               },
               child: Text(
                 "Create",

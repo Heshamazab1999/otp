@@ -9,8 +9,6 @@ import 'package:otp/models/product_model.dart';
 class CategoryServices {
   final _store = FirebaseFirestore.instance;
 
-
-
   Future<List<CategoryModel>> getCategory() async {
     final data = await _store.collection("category").get();
     return data.docs.map((e) => CategoryModel.fromJson(e)).toList();
@@ -18,7 +16,18 @@ class CategoryServices {
 
   Stream<List<CategoryModel>> getStreamData() {
     return _store
-        .collection("category")
+        .collection("CategoryType")
+        .snapshots()
+        .transform(StreamTransformer.fromHandlers(handleData: (data, sink) {
+      sink.add(data.docs.map((e) => CategoryModel.fromJson(e)).toList());
+    }));
+  }
+
+  Stream<List<CategoryModel>> getProductStreamData(String id) {
+    return _store
+        .collection("CategoryType")
+        .doc(id)
+        .collection("product")
         .snapshots()
         .transform(StreamTransformer.fromHandlers(handleData: (data, sink) {
       sink.add(data.docs.map((e) => CategoryModel.fromJson(e)).toList());

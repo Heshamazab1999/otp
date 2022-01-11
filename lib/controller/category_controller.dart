@@ -4,6 +4,7 @@ import 'package:otp/models/product_model.dart';
 import 'package:otp/services/category_services.dart';
 
 class CategoryController extends GetxController {
+  static CategoryController to = Get.find();
   final models = <CategoryModel>[].obs;
   final services = CategoryServices();
   final label = ''.obs;
@@ -19,6 +20,10 @@ class CategoryController extends GetxController {
 
   Stream<List<CategoryModel>> getStream() {
     return services.getStreamData();
+  }
+
+  Stream<List<CategoryModel>> getProduct(String id) {
+    return services.getProductStreamData(id);
   }
 
   sendData() async {
