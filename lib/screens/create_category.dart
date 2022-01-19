@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,8 +7,6 @@ import 'package:otp/models/category_model.dart';
 import 'package:otp/screens/category_screen.dart';
 
 class CreateCategory extends StatelessWidget {
-  const CreateCategory({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final _controller = Get.put(CreateCategoryController());
@@ -24,42 +21,49 @@ class CreateCategory extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      StreamBuilder<List<CollectionModel>>(
+                          stream: _controller.getCategories(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              _controller.category = snapshot.data;
+                              return Obx(() => DropdownButton<CollectionModel>(
+                                    value: _controller.selected.value
+                                        ? _controller.createModel.value
+                                        : _controller.category![0],
+                                    onChanged: (newValue) {
+                                      _controller.selected.value = true;
+                                      _controller.createModel.value = newValue!;
+                                      _controller.key.value = newValue.key!;
+                                      print(_controller.key.value);
+                                    },
+                                    items: snapshot.data!.map((category) {
+                                      return DropdownMenuItem<CollectionModel>(
+                                        child: new Text(category.name!),
+                                        value: category,
+                                      );
+                                    }).toList(),
+                                  ));
+                            }
+                            return CupertinoActivityIndicator();
+                          }),
                       // StreamBuilder<List<CreateModel>>(
                       //     stream: _controller.getCategories(),
                       //     builder: (context, snapshot) {
                       //       if (snapshot.hasData) {
-                      //         return DropdownButton(
-                      //         value: "c",
-                      //         onChanged: ( newValue) {
-                      //
-                      //           },
-                      //         items:snapshot.data!.map((snapshot) {
-                      //           return new DropdownMenuItem<String>(
-                      //             child: new Text(snapshot.name!),
-                      //             value: snapshot.name,
-                      //           );
-                      //         }).toList(),);
+                      //         final list = snapshot.data as List;
+                      //         return ListView.builder(
+                      //             shrinkWrap: true,
+                      //             physics: ClampingScrollPhysics(),
+                      //             itemCount: list.length,
+                      //             itemBuilder: (ctx, index) => TextButton(
+                      //                 onPressed: () {
+                      //                   _controller.key.value = list[index].key;
+                      //                   print(_controller.key.value);
+                      //                 },
+                      //                 child: Text(list[index].name!)));
                       //       }
                       //       return CupertinoActivityIndicator();
                       //     }),
-                      StreamBuilder<List<CreateModel>>(
-                          stream: _controller.getCategories(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final list = snapshot.data as List;
-                              return ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: ClampingScrollPhysics(),
-                                  itemCount: list.length,
-                                  itemBuilder: (ctx, index) => TextButton(
-                                      onPressed: () {
-                                        _controller.key.value = list[index].key;
-                                        print(_controller.key.value);
-                                      },
-                                      child: Text(list[index].name!)));
-                            }
-                            return CupertinoActivityIndicator();
-                          }),
                       Obx(() => MaterialButton(
                             onPressed: () {
                               _controller.selectImage();

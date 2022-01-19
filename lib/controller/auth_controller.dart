@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:otp/models/user_model.dart';
+import 'package:otp/screens/collection_screen.dart';
 import 'package:otp/screens/home_screen.dart';
 import 'package:otp/screens/login_screen.dart';
 import 'package:otp/services/auth_services.dart';
@@ -29,7 +30,7 @@ class AuthController extends GetxController {
   handelAuthChanged(isLoggedIn) async {
     await Future.delayed(Duration(seconds: 1));
     if (isLoggedIn) {
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => CollectionScreen());
     } else {
       Get.offAll(() => LoginScreen());
     }
@@ -38,7 +39,7 @@ class AuthController extends GetxController {
   changeLoggedIn(bool isLogged, UserModel user) {
     if (isLogged) {
       _currentUser.value = user;
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => CollectionScreen());
     } else {
       Get.offAll(() => LoginScreen());
     }

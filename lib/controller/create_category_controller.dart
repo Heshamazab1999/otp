@@ -15,15 +15,20 @@ class CreateCategoryController extends GetxController {
   final value = 'A'.obs;
   final key = ''.obs;
   final categoryImage = ''.obs;
+  final selected = false.obs;
+  final createModel=CollectionModel().obs;
+  List<CollectionModel>? category = [];
+
+
 
   create() async {
     await services.createCategory(
-        CreateModel(name: label.value, image: categoryImage.value),
+        CollectionModel(name: label.value, image: categoryImage.value),
         categoryImage.value,
         categoryImage.value.toString());
   }
 
-  Stream<List<CreateModel>> getCategories() {
+  Stream<List<CollectionModel>> getCategories() {
     return services.getCategories();
   }
 

@@ -9,7 +9,7 @@ import 'package:otp/models/product_model.dart';
 class CreateCategoryServices {
   final _store = FirebaseFirestore.instance;
 
-  Future<CreateModel> createCategory(CreateModel createModel,String image,String code) async {
+  Future<CollectionModel> createCategory(CollectionModel createModel,String image,String code) async {
     if (image.isNotEmpty) {
       createModel.image = await uploadImage(image, code);
     }
@@ -19,12 +19,12 @@ class CreateCategoryServices {
     return createModel;
   }
 
-  Stream<List<CreateModel>> getCategories() {
+  Stream<List<CollectionModel>> getCategories() {
     return _store
         .collection("CategoryType")
         .snapshots()
         .transform(StreamTransformer.fromHandlers(handleData: (data, sink) {
-      sink.add(data.docs.map((e) => CreateModel.fromJson(e)).toList());
+      sink.add(data.docs.map((e) => CollectionModel.fromJson(e)).toList());
     }));
   }
 

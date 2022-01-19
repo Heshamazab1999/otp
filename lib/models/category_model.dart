@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CreateModel {
+class CollectionModel {
   String? name;
   String? image;
   String? key;
 
-  CreateModel({this.name, this.image, this.key});
+  CollectionModel({this.name, this.image, this.key});
 
-  factory CreateModel.fromJson(DocumentSnapshot snapshot) {
-    return CreateModel(
+  factory CollectionModel.fromJson(DocumentSnapshot snapshot) {
+    return CollectionModel(
       name: snapshot["name"],
       image: snapshot["image"],
       key: snapshot.id,
